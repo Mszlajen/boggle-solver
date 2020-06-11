@@ -1,16 +1,18 @@
 
 module Table
 
-const size = UnitRange{Int8}(1, 5)
 const range = UnitRange{Int8}(-1, 1)
+
 function searchTable(table::Array{Char, 2},
                     root::Main.WordTree.Node,
                     minLength::Int=5)
 
-    passed = Bool[false for x=1:5, y=1:5]
+    sizeofx = UnitRange{Int8}(1, lastindex(table, 1))
+    sizeofy = UnitRange{Int8}(1, lastindex(table, 2))
+    passed = Bool[false for x=sizeofx, y=sizeofy]
     word::Array{Char} = []
     words::Array{String} = []
-    for x in size, y in size
+    for x in sizeofx, y in sizeofy
         words = union(words, searchChildren(table, (x,y), root, passed, word, minLength))
     end
     words
@@ -39,10 +41,12 @@ function searchChildren(table::Array{Char},
                         word::Array{Char},
                         minLength::Int)
     
+    sizeofx = UnitRange{Int8}(1, lastindex(table, 1))
+    sizeofy = UnitRange{Int8}(1, lastindex(table, 2))
     words::Array{String} = []
     for x in range, y in range
         xi, yi = index[1] + x, index[2] + y
-        if !(xi in size && yi in size) || passed[xi, yi]
+        if !(xi in sizeofx && yi in sizeofy) || passed[xi, yi]
             continue
         end
 

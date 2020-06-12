@@ -27,7 +27,7 @@ end
 function parsefile(filename::AbstractString)
     root::Node = Node()
     for word in eachline(filename)
-        length(word) <= 1 && continue
+        (length(word) in 1:25) || continue
         addword(root, word) 
     end
     root

@@ -27,7 +27,7 @@ end
 
 function load(filepath::AbstractString)::Node
     root::Node = Node()
-    stack::Array = Array{Node, 1}(undef, 25)
+    stack::Array = Array{Node, 1}(undef, 26)
     fathernode::Node = root
     level::Integer = 0
     stack[1] = root

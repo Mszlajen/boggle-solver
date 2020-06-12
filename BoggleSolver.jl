@@ -16,6 +16,14 @@ function resolveJSON(tablePath::AbstractString, dictionaryPath::AbstractString, 
     nothing
 end
 
+function resolveDICC(tablePath::AbstractString, dictionaryPath::AbstractString, resolvedPath::AbstractString, minLegth::Int=5)::Nothing
+    table::Array{Char} = readdlm(tablePath, Char) 
+    root::WordTree.Node = WordTree.load(dictionaryPath)
+    words::Array{String} = Table.searchTable(table, root, minLegth)
+    writeresolved(words, resolvedPath)
+    nothing
+end
+
 function resolveTXT(tablePath::AbstractString, dictionaryPath::AbstractString, resolvedPath::AbstractString, minLegth::Int=5)::Nothing
     table::Array{Char} = readdlm(tablePath, Char) 
     root::WordTree.Node = WordTree.parsefile(dictionaryPath)

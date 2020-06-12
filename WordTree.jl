@@ -3,13 +3,13 @@ using JSON
 export Node, haschild, getchild, parsefile
 
 struct Node
-    letter::Union{AbstractChar, Nothing}
+    letter::AbstractChar
     children::AbstractDict{Char, Node}
     isword::Bool
 
-    Node() = new(nothing, Dict{Char, Node}(), false)
+    Node() = new('\0', Dict{Char, Node}(), false)
     Node(letter::AbstractChar, isword::Bool=false) = new(letter, Dict{Char, Node}(), isword)
-    Node(letter::Union{AbstractChar, Nothing}, children::AbstractDict{Char, Node}, isword::Bool=false) = new(letter, children, isword)
+    Node(letter::AbstractChar, children::AbstractDict{Char, Node}, isword::Bool=false) = new(letter, children, isword)
 end
 
 haschild(node::Node, letter::AbstractChar) = haskey(node.children, letter)
@@ -48,5 +48,7 @@ function addword(root::Node, word::AbstractString)
     end
     addchild(current_node, Node(lastchar, true))
 end
+
+include("WordTreeDictIO.jl")
 
 end

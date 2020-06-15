@@ -30,7 +30,9 @@ function addword(root::Node, word::AbstractString)
             current_node = next_node
         end
     end
-    addchild(current_node, Node(lastchar, true))
+    if !haschild(current_node, lastchar)
+        addchild(current_node, Node(lastchar, true))
+    end
 end
 
 include("WordTreeDictIO.jl")

@@ -5,6 +5,21 @@ const ui8one = UInt8(1)
 const wordchar = '.'
 const levelchar = '-'
 
+function parsefile(filename::AbstractString, root::Node=Node())::Node
+    for word in eachline(filename)
+        (length(word) in 2:25) || continue
+        addword(root, word) 
+    end
+    root
+end
+
+function parsefile(filenames::AbstractArray{S} where S <: AbstractString, root::Node=Node())::Node
+   for filename in filenames
+        parsefile(filename, root)
+   end
+   root
+end
+
 function iteratechildren(file::IO, node::Node, level::UInt8)::Nothing
     for (key, node) in node.children
         save(file, node, level + ui8one)

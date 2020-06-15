@@ -1,5 +1,4 @@
 module WordTree
-using JSON
 export Node, haschild, getchild, parsefile
 
 struct Node
@@ -16,21 +15,6 @@ haschild(node::Node, letter::AbstractChar) = haskey(node.children, letter)
 getchild(node::Node, letter::AbstractChar) = get(node.children, letter, nothing)
 function addchild(node::Node, child::Node) 
     node.children[child.letter] = child
-end
-
-function savetofile(root::Node, filename::AbstractString)
-    open(filename, "w+") do file
-        JSON.print(file, root, 1)
-    end
-end
-
-function parsefile(filename::AbstractString)
-    root::Node = Node()
-    for word in eachline(filename)
-        (length(word) in 1:25) || continue
-        addword(root, word) 
-    end
-    root
 end
 
 function addword(root::Node, word::AbstractString)

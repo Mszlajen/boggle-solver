@@ -8,14 +8,6 @@ function writeresolved(words::AbstractArray{String}, resolvedPath::AbstractStrin
     writedlm(resolvedPath, words)
 end
 
-function resolveJSON(tablePath::AbstractString, dictionaryPath::AbstractString, resolvedPath::AbstractString, minLegth::Int=5)::Nothing
-    table::Array{Char} = readdlm(tablePath, Char)
-    root::WordTree.Node = JSON.parsefile(dictionaryPath) 
-    words::Array{String} = Table.searchTable(table, root, minLegth)
-    writeresolved(words, resolvedPath)
-    nothing
-end
-
 function resolveDICC(tablePath::AbstractString, dictionaryPath::AbstractString, resolvedPath::AbstractString, minLegth::Int=5)::Nothing
     table::Array{Char} = readdlm(tablePath, Char) 
     root::WordTree.Node = WordTree.load(dictionaryPath)

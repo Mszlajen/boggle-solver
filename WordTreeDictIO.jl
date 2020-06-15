@@ -40,9 +40,9 @@ function save(file::IO, node::Node, level::UInt8)::Nothing
     nothing
 end
 
-function load(filepath::AbstractString)::Node
+function load(filepath::AbstractString, maxlength::Int=25)::Node
     root::Node = Node()
-    stack::Array = Array{Node, 1}(undef, 26)
+    stack::Array = Array{Node, 1}(undef, maxlength + 1)
     fathernode::Node = root
     level::Integer = 0
     stack[1] = root

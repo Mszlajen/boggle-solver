@@ -10,8 +10,8 @@ function searchTable(table::Array{Char, 2},
     sizeofx = UnitRange{Int8}(1, lastindex(table, 1))
     sizeofy = UnitRange{Int8}(1, lastindex(table, 2))
     passed = Bool[false for x=sizeofx, y=sizeofy]
-    word::Array{Char} = []
-    words::Array{String} = []
+    word = Char[]
+    words = String[]
     for x in sizeofx, y in sizeofy
         words = union(words, searchChildren(table, (x,y), root, passed, word, minLength))
     end

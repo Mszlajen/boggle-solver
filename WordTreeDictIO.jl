@@ -5,19 +5,31 @@ const ui8one = UInt8(1)
 const wordchar = '.'
 const levelchar = '-'
 
-function parsefile(filename::AbstractString, root::Node=Node())::Node
+function parsefile!(root::Node, filename::AbstractString)::Nothing
     for word in eachline(filename)
-        (length(word) in 2:25) || continue
+        length(word) > 1 || continue
         addword(root, word) 
     end
+    nothing
+end
+
+function parsefile(filename::AbstractString)::Node
+    root = Node()
+    parsefile!(root, filename)
     root
 end
 
-function parsefile(filenames::AbstractArray{S} where S <: AbstractString, root::Node=Node())::Node
+function parsefile!(root::Node, filenames::AbstractArray{S} where S <: AbstractString)::Nothing
    for filename in filenames
-        parsefile(filename, root)
+        parsefile!(root, filename)
    end
-   root
+   nothing
+end
+
+function parsefile(filenames::AbstractArray{S} where S <: AbstractString)
+    root = Node()
+    parsefile!(root, filenames)
+    root
 end
 
 function iteratechildren(file::IO, node::Node, level::UInt8)::Nothing
@@ -51,7 +63,7 @@ function load(filepath::AbstractString, maxlength::Int=25)::Node
         chars = line[level+1:lastindex(line)]
         fathernode = stack[level]
         newnode = Node(chars[1], length(chars) == 2)
-        addchild(fathernode, newnode)
+        addchild!(fathernode, newnode)
         stack[level + 1] = newnode
     end
     root

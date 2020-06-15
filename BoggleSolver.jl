@@ -1,8 +1,6 @@
 include("WordTree.jl")
-include("Converters.jl")
 include("Table.jl")
 using DelimitedFiles: readdlm, writedlm
-using JSON
 
 function writeresolved(words::AbstractArray{String}, resolvedPath::AbstractString)
     writedlm(resolvedPath, words)

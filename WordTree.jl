@@ -11,10 +11,11 @@ struct Node
     Node(letter::AbstractChar, children::AbstractDict{Char, Node}, isword::Bool=false) = new(letter, children, isword)
 end
 
-haschild(node::Node, letter::AbstractChar) = haskey(node.children, letter)
-getchild(node::Node, letter::AbstractChar) = get(node.children, letter, nothing)
-function addchild(node::Node, child::Node) 
+haschild(node::Node, letter::AbstractChar)::Bool = haskey(node.children, letter)
+getchild(node::Node, letter::AbstractChar)::Node = get(node.children, letter, nothing)
+function addchild!(node::Node, child::Node)::Nothing 
     node.children[child.letter] = child
+    nothing
 end
 
 function addword(root::Node, word::AbstractString)
@@ -26,12 +27,12 @@ function addword(root::Node, word::AbstractString)
             current_node = getchild(current_node, letter)
         else
             next_node::Node = Node(letter)
-            addchild(current_node, next_node)
+            addchild!(current_node, next_node)
             current_node = next_node
         end
     end
     if !haschild(current_node, lastchar)
-        addchild(current_node, Node(lastchar, true))
+        addchild!(current_node, Node(lastchar, true))
     end
 end
 
